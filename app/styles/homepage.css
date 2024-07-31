@@ -42,12 +42,7 @@ header button{
 /* Main */
 
 
-
-.homepage-container{
-    flex-grow: 1;
-}
-
-.homepage{
+.homepage, .create{
     max-width: 900px;
 }
 
@@ -85,18 +80,61 @@ header button{
 
 /* Post Content */
 
+.title-section{
+    border-bottom: 1px solid var(--sec_colour);
+}
 
+.title-section h2{
+    margin-bottom: 30px;
+    color: var(--primary_colour);
+    font-size: 2.5rem;
+}
 
 .post-content-container{
     display: flex;
     flex-direction: column;
-    gap: 13px;
-    margin-bottom: 20px;
+    gap: 60px;
+    padding: 20px;   
+    margin: 30px 0px;
+}
+
+.post-content-container div{
+    display: flex;
+    align-items: center;
 }
 
 .post-content-container > div{
     display: flex;
     justify-content: space-between;
+    position: relative;
+}
+
+
+.post-content-container div span{
+    position: absolute;
+    right: 0;
+    bottom: -18px;
+    font-size: 0.8rem;
+}
+
+.post-content-container .error-message{
+    position: absolute;
+    top: -23px;
+    right: 0;
+    color: var(--primary_colour);
+    font-weight: bold;
+}
+
+.post-content-items{
+    position: relative;
+}
+
+.error-message2 {
+    position: absolute;
+    top: -23px;
+    left: 0;
+    color: var(--primary_colour);
+    font-weight: bold;
 }
 
 .post-content textarea{
@@ -106,15 +144,23 @@ header button{
 }
 
 .post-content input, .post-content select, .post-content textarea{
-    width: 400px;
+    width: 500px;
     padding: 10px;
 }
 
 .post-content-items{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
 }
 
 .post-content-items input{
     width: 230px;
 }
+
+.post-content-items button{
+    width: 280px;
+    height: 50px;
+}
+

@@ -4,7 +4,7 @@
     box-sizing: border-box;
 
     --primary_colour: #ed6669; 
-    --sec_colour: #f3f3f3;
+    --sec_colour: #e4e4e4;
 }
 
 body{
@@ -17,6 +17,14 @@ body{
 a, button, input, textarea, select{
     font-family: "Space Grotesk", sans-serif;
     color: black;
+}
+
+::placeholder{
+    color: black;
+}
+
+main{
+    flex-grow: 1;
 }
 
 a{
