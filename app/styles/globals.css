@@ -1,0 +1,49 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    --primary_colour: #ed6669; 
+    --sec_colour: #f3f3f3;
+}
+
+body{
+    background-color: white;
+    min-height: 100vh;
+    font-family: "Space Grotesk", sans-serif;
+    font-style: normal;
+}
+
+a, button, input{
+    font-family: "Space Grotesk", sans-serif;
+    cursor: pointer;
+}
+
+.container{
+    display: flex;
+    min-height: 100vh;
+    
+}
+
+.buttonStyle1{
+    border: 1px solid var(--primary_colour);
+    background-color: var(--primary_colour);
+    color: white;
+    padding: 10px 25px;
+    font-weight: 500;
+}
+
+.buttonStyle1:hover {
+    color: var(--primary_colour);
+    background-color: white;
+}
+
+ul {
+    list-style-type: none;
+}
+
+.title{
+    font-family: "Rock Salt", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
