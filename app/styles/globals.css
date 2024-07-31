@@ -14,15 +14,26 @@ body{
     font-style: normal;
 }
 
-a, button, input{
+a, button, input, textarea, select{
     font-family: "Space Grotesk", sans-serif;
+    color: black;
+}
+
+a{
+    text-decoration: none;
+}
+
+button{
     cursor: pointer;
 }
 
 .container{
     display: flex;
     min-height: 100vh;
-    
+}
+
+section{
+    padding: 20px;
 }
 
 .buttonStyle1{

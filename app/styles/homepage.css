@@ -1,4 +1,7 @@
 
+
+/* Header */
+
 header{
     flex: 0 0 280px;
     display: flex;
@@ -7,6 +10,7 @@ header{
     padding: 20px 15px;
     border-right: 1px solid var(--sec_colour);
 }
+
 
 .navigation ul, .settings ul{
     display: flex;
@@ -19,11 +23,98 @@ header button{
     margin: 20px 0px;
 }
 
-.navigation ul li, .settings ul li{
+.navigation ul li a, .settings ul li a{
     padding: 10px 0px 10px 10px;
 }
 
 .navigation ul li:hover, .settings ul li:hover{
     cursor: pointer;
     background-color: var(--sec_colour);
+}
+
+.navigation ul li a, .settings ul li a{
+    display: block;
+    width: 100%;
+    height: 100%;
+} 
+
+
+/* Main */
+
+
+
+.homepage-container{
+    flex-grow: 1;
+}
+
+.homepage{
+    max-width: 900px;
+}
+
+.search-area input{
+    /* width: 400px; */
+    width: 100%;
+    border-radius: 1rem;
+    padding: 10px 5px 10px 25px;
+    border: 2px solid var(--primary_colour);
+}
+
+.categories{
+    border: 1px solid var(--sec_colour);
+}
+
+.categories ul{
+    display: flex;
+    flex-direction: row;
+}
+
+.categories ul li{
+    flex: 1;
+    text-align: center;
+    padding: 15px 0px;
+}
+
+.categories ul li:hover{
+    background-color: var(--sec_colour);
+    cursor: pointer;
+}
+.selected{
+    border-bottom: 2px solid var(--primary_colour);
+}
+
+
+/* Post Content */
+
+
+
+.post-content-container{
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin-bottom: 20px;
+}
+
+.post-content-container > div{
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-content textarea{
+    resize: vertical;
+    min-height: 80px;
+    max-height: 600px;
+}
+
+.post-content input, .post-content select, .post-content textarea{
+    width: 400px;
+    padding: 10px;
+}
+
+.post-content-items{
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-content-items input{
+    width: 230px;
 }
