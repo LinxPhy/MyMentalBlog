@@ -8,8 +8,10 @@ export default function Create() {
     const [category, setCategory] = useState('choice')
     const [message, setMessage] = useState('')
     const [image, setImage] : any = useState('')
-    const [errors, setErrors] : any = useState([])
-
+    const [location, setLocation] = useState('public')
+    const [mood, setMood] = useState('mood')
+    const [errors, setErrors] = useState<string[]>([]);
+    
     const [titleCount, setTitleCount] = useState(0)
     const [messageCount, setMessageCount] = useState(0)
 
@@ -27,12 +29,9 @@ export default function Create() {
             return
         }
 
-        let image_string = ''
-        let image_name = image && ( image.target.files[0].name.replace(/\s+/g, '')+ '_' + Date.now() )
+        let image_name = image && ( image.target.files[0].name.replace(/\s+/g, '')+ '_' + Date.now() ) || null
 
-        const data = {
-            title, category, message
-        }
+        const data = { title, category, message, image_name, location, mood}
 
 
 
@@ -112,9 +111,38 @@ export default function Create() {
 
                         <div>
                             <p>Location</p>
-                            <select>
+                            <select onChange={(e) => setLocation(e.target.value)}>
                                 <option value={'public'}>Public</option>
                                 <option value={'private'}>Private</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <p>Select Mood (Optional)</p>
+                            <select className="mood" onChange={(e) => setMood(e.target.value)}>
+                                <option value="mood">Select...</option>
+                                <option value="angry">😡 - angry</option>
+                                <option value="anxious">😰 - anxious</option>
+                                <option value="confused">🤨 - confused</option>
+                                <option value="curious">🤔 - curious</option>
+                                <option value="demon">😈 - demon</option>
+                                <option value="disgusted">🤢 - disgusted</option>
+                                <option value="excited">🤩 - excited</option>
+                                <option value="exhausted">😩 - exhausted</option>
+                                <option value="happy">😃 - happy</option>
+                                <option value="heart-crack">💔 - heart crack</option>
+                                <option value="horrified">😱 - horrified</option>
+                                <option value="illness">🤒 - illness</option>
+                                <option value="in-love">🥰 - in love</option>
+                                <option value="lonely">😞 - lonely</option>
+                                <option value="money">🤑 - money</option>
+                                <option value="nothing">😶 - nothing</option>
+                                <option value="poop">💩 - poop</option>
+                                <option value="sad">😔 - sad</option>
+                                <option value="scared">😨 - scared</option>
+                                <option value="shocked">😲 - shocked</option>
+                                <option value="sleepy">😴 - sleepy</option>
+                                <option value="surprised">😮 - surprised</option>
                             </select>
                         </div>
 

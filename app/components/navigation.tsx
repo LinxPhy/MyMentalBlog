@@ -1,8 +1,14 @@
+"use client"
+
 import '@/app/styles/homepage.css'
 import Link from 'next/link'
 
 
+import AuthButton from './authButton'
+
 export default function Navigation() {
+
+   
 
     return (
         <header>
@@ -11,7 +17,7 @@ export default function Navigation() {
                     MyMentalBlog
                 </div>
                 <div className="user">
-                    <button className='buttonStyle1'>Login</button>
+                    <AuthButton />
                 </div>
 
                 <div className="navigation">

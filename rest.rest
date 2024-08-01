@@ -1,0 +1,16 @@
+
+
+###
+GET http://localhost:3000/create
+Content-Type: application/json
+
+# {
+#     "postID": "",
+#     "userID": "",
+#     "title": "",
+#     "category": "",
+#     "image": "",
+#     "message": "",
+#     "location": "",
+#     "mood": ""
+# }

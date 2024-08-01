@@ -148,6 +148,10 @@ header button{
     padding: 10px;
 }
 
+.mood{
+    width: 200px !important;
+}
+
 .post-content-items{
     display: flex;
     justify-content: space-between;
