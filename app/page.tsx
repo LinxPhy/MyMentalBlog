@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import Notes from "./components/notes";
 
 export default function Home() {
 
@@ -16,8 +17,6 @@ export default function Home() {
           <input type="search" placeholder="Search"></input>
         </section> */}
 
-
-
         <section className="main-content">
           <div className="categories">
             <ul>
@@ -26,6 +25,10 @@ export default function Home() {
               <li className={`${selected === 'profile' ? 'selected' : ''}`} onClick={() => setSelected('profile')}><Link href={'#'}>Profile</Link></li>
             </ul>
           </div>
+        </section>
+
+        <section className="post-area">
+          <Notes data={selected} />
         </section>
       </div>
     </main>

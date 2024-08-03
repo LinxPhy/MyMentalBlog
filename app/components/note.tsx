@@ -1,6 +1,10 @@
 
 
-export default function Note() {
+export default function Note({data} : any) {
+
+    const { userID, title, category, message, image_name, location, mood } = data
+
+    // need to think about user image icon
 
     return (
         <div className="Note">

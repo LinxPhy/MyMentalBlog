@@ -6,16 +6,10 @@ export default function AuthButton() {
 
     if (session) {
         return (
-            <>
-                Signed in <br />
-                <button onClick={() => signOut()}>Sign out</button>
-            </>
+            <button className='buttonStyle2' onClick={() => signOut()}>Sign out</button>
         )
     }
     return (
-        <>
-            Not signed in <br />
-            <button className='buttonStyle1' onClick={() => signIn()}>Login</button>
-        </>
+        <button className='buttonStyle1' onClick={() => signIn()}>Login</button>
     )
 }

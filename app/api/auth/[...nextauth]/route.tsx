@@ -1,7 +1,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
-
-console.log(process.env.GOOGLE_CLIENT_ID )
+import axios from "axios";
 
 export const authOptions = {
   providers: [
@@ -10,7 +9,33 @@ export const authOptions = {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       })
   ],
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user, account, profile, isNewUser } : any) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+    async session({ session, token, user } : any) {
+      session.user.id = token.id;
+      
+      const data = {
+        id: session?.user.id,
+        name: session?.user.name,
+        email: session?.user.email,
+        image: session?.user.image,
+        expiration: session?.expires
+      }
+
+      storeData(data)
+      return session;
+    }
+  }
+}
+
+function storeData({data} : any){
+
 }
 
 // export default NextAuth(authOptions)

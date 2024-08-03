@@ -148,8 +148,37 @@ header button{
     padding: 10px;
 }
 
-.mood{
+.mood, .anonymous{
     width: 200px !important;
+}
+
+.tooltip{
+    visibility: hidden;
+    width: 150px;
+    background-color: white;
+    color: black;
+    border-radius: 6px;
+    padding: 5px;
+    border: 1px solid black;
+    font-size: 0.6rem;
+    position: absolute;
+    z-index: 1;
+    left: 30px;
+}
+
+.anonymous_button{
+    width: 12px;
+    height: 10px;
+    position: absolute;
+    bottom: 15px;
+    left: 170px;
+    cursor: auto;
+    background-color: lightgray;
+    border: 1px solid black;
+}
+
+.anonymous_button:hover .tooltip{
+    visibility: visible;
 }
 
 .post-content-items{
