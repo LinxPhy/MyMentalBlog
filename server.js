@@ -3,9 +3,10 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors');
 const slugify = require('slugify');
-const { v4: uuidv4 } = require('uuid');
-
+const admin = require('firebase-admin');
+const serviceAccount = require('./keys/keys.json');
 const { connection } = require('./routes/db.js');
+const multer = require('multer');
 
 const app = express()
 
@@ -19,57 +20,102 @@ app.use(
     })
 )
 
-app.get('/', (req,res) => {
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "test-a7fb4.appspot.com"
+    //storageBucket: 'test-a7fb4.appspot.com'
+    //gs://test-a7fb4.appspot.com
+});
+
+const bucket = admin.storage().bucket();
+
+app.get('/', (req, res) => {
     res.sendStatus(200)
 })
 
 app.post('/getposts', (req, res) => {
 
-    try{
+    try {
         let query = `SELECT * FROM Posts`
         connection.query(query, (err, result) => {
-            if(err) throw err
+            if (err) throw err
             res.send(result)
         })
 
-        
-    } catch(e){
+
+    } catch (e) {
         console.log(e)
         res.sendStatus(500)
     }
 
 })
 
+
+const upload = multer({
+    storage: multer.memoryStorage()
+})
+
+app.post('/upload_image', upload.single('image'), async (req, res) => {
+
+    if (!req.file) {
+        return res.status(400).send('No file uploaded.');
+    }
+
+    try {
+        const { originalname, buffer } = req.file;
+        const fileName = `${Date.now()}_${originalname}`;
+        const file = bucket.file(fileName);
+
+        // Upload the file to Firebase Storage
+        await file.save(buffer, {
+            metadata: {
+                contentType: req.file.mimetype
+            }
+        });
+
+        const [url] = await file.getSignedUrl({
+            action: 'read',
+            expires: '03-09-2491' // Set expiration date as needed
+        });
+
+        console.log("success")
+        res.json({ imageUrl: url });
+    } catch (error) {
+        console.error('Error uploading file:', error);
+        res.status(500).send('Failed to upload file.');
+    }
+
+})
+
 app.post('/create', (req, res) => {
-    
-    try{
+
+    try {
         const postID = generateID(3)
         if (!postID) throw err
 
         const { userID, title, category, message, image_name, location, mood, incognito, feel } = req.body.data
-        const slug = slugify( title,  {lower: true} )
-        
-        let query = 
-            `INSERT INTO Post 
-                (postID, userID, title, slug, category, image, message, location, mood, incognito, feel ) 
-                VALUES (
-                    '${postID}', '${userID}', '${title}', '${slug}', 
-                    '${category}', '${image_name}', '${message}', 
-                    '${location}', '${mood}', '${incognito}', '${feel}'
-            )`
+        const slug = slugify(title, { lower: true })
 
-        connection.query(query, (err, result) => {
-            if(err) throw err
-            console.log("Success")
+        let query =
+            `
+                INSERT INTO Post (postID, userID, title, slug, category, image, message, location, mood, incognito, feel )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            `
+
+        let data = [postID, userID, title, slug, category, image_name, message, location, mood, incognito, feel]
+
+        connection.query(query, [data], (err, result) => {
+            if (err) { console.log(err) }
+            console.log("Added new Post")
         })
 
         res.sendStatus(200)
 
-    } catch(e) {
+    } catch (e) {
         console.log(e)
         res.sendStatus(500)
     }
-    
+
 })
 
 
@@ -105,9 +151,9 @@ function generateID(retries) {
     });
 }
 
-function getPostID(){
+function getPostID() {
     const alphanumeric = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    return Array.from({length: 10}, () => alphanumeric[Math.floor(Math.random() * alphanumeric.length)]).join(''); 
+    return Array.from({ length: 10 }, () => alphanumeric[Math.floor(Math.random() * alphanumeric.length)]).join('');
 }
 
 app.listen(3000, () => console.log('Server Started'));

@@ -34,7 +34,7 @@ export default function Create() {
 
         setErrors([])
 
-        if (!session){
+        if (!session) {
             router.push('/api/auth/signin')
         }
 
@@ -42,10 +42,28 @@ export default function Create() {
         //     return
         // }
 
-        let image_name = image && (image.target.files[0].name.replace(/\s+/g, '') + '_' + Date.now()) || null
-     
-        const userID : string = session?.user?.id || ''
-        const data : any = { userID, title, category, message, image_name, location, mood, incognito, feel }
+        // let image_name = image && (image.target.files[0].name.replace(/\s+/g, '') + '_' + Date.now()) || null
+
+        // const userID : string = session?.user?.id || ''
+        // const data : any = { userID, title, category, message, image_name, location, mood, incognito, feel }
+
+        const formData = new FormData()
+        let _image = image.target.files[0]
+        formData.append('image', _image);
+
+        async function draft() {
+            await axios.post(`${process.env.SERVER_URL}/upload_image`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }).then(res => {
+                console.log(res)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+
+        draft()
 
         // const createPost = async () => {
 
@@ -174,8 +192,8 @@ export default function Create() {
 
                         <div>
                             <p>Incognito (Optional)</p>
-                            
-                            <div className="anonymous_button"> 
+
+                            <div className="anonymous_button">
                                 <div className="tooltip">
                                     Select Yes if you would like your post to remain anonymous.<br></br>
                                     Please note! If you choose to comment, your profile will be shown in the comment section
@@ -183,7 +201,7 @@ export default function Create() {
                             </div>
 
                             <select className="anonymous" onChange={(e) => setIncognito(e.target.value)}>
-                                <option value='false'>No</option> 
+                                <option value='false'>No</option>
                                 <option value='true'>Yes</option>
                             </select>
                         </div>
