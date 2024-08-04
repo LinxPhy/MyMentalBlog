@@ -44,15 +44,25 @@ export default function Create() {
 
         // let image_name = image && (image.target.files[0].name.replace(/\s+/g, '') + '_' + Date.now()) || null
 
-        // const userID : string = session?.user?.id || ''
-        // const data : any = { userID, title, category, message, image_name, location, mood, incognito, feel }
+        const userID : string = session?.user?.id || ''
+        //const data : any = { userID, title, category, message, location, mood, incognito, feel }
 
         const formData = new FormData()
-        let _image = image.target.files[0]
-        formData.append('image', _image);
+        const _image = image && image.target.files[0] || ''
+        
+        formData.append('userID', userID)
+        formData.append('title', title)
+        formData.append('image', _image)
+        formData.append('category', category)
+        formData.append('message', message)
+        formData.append('location', location)
+        formData.append('mood', mood)
+        formData.append('incognito', incognito)
+        formData.append('feel', feel)
+
 
         async function draft() {
-            await axios.post(`${process.env.SERVER_URL}/upload_image`, formData, {
+            await axios.post(`${process.env.SERVER_URL}/create`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

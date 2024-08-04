@@ -3,6 +3,7 @@
 .env
 .env.local
 .rest.rest
+keys.json
 
 # dependencies
 /node_modules
