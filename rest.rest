@@ -24,3 +24,18 @@ Content-Type: application/json
 ###
 GET http://localhost:3000/generateID
 Content-Type: application/json
+
+
+
+###
+POST http://localhost:3000/storeUser
+Content-Type: application/json
+
+{
+    "id": "123",
+    "name": "new",
+    "email": "test@test2",
+    "image": "image",
+    "expiration": "123"
+}
+

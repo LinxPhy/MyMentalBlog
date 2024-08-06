@@ -108,7 +108,7 @@ function generateID(retries) {
         if (retries === 0) return resolve(null);
 
         const id = getPostID();
-        const query = `SELECT id FROM test WHERE id = ?`;
+        const query = `SELECT postID FROM posts WHERE postID = ?`;
 
         connection.query(query, [id], (err, result) => {
             if (err) {

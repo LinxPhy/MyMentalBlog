@@ -3,7 +3,8 @@ require('dotenv').config()
 const express = require('express');
 const cors = require('cors')
 const createPost = require('./routes/createPost')
-
+const storeUser = require('./routes/storeUser')
+const { connection } = require('./routes/db');
 
 const app = express()
 
@@ -16,11 +17,13 @@ app.use(
 )
 
 
-
-app.use(createPost)
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
+app.use(createPost)
+app.use(storeUser)
+
 
 
 
@@ -31,12 +34,18 @@ app.get('/', (req, res) => {
 app.post('/getposts', (req, res) => {
 
     try {
-        let query = `SELECT * FROM Posts`
+        let query = `
+        SELECT 
+            u.username, u.email, u.image as icon, 
+            p.postID, p.title, p.slug,
+            p.category, p.image, p.message,
+            p.location, p.mood, p.incognito,
+            p.feel, p.created_at
+        FROM users u JOIN posts p ON u.userID = p.userID;`
         connection.query(query, (err, result) => {
             if (err) throw err
             res.send(result)
         })
-
 
     } catch (e) {
         console.log(e)

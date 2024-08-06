@@ -1,50 +1,99 @@
 
+import HeartEmpty from '@/app/icons/heart_empty.svg'
+import HeartFull from '@/app/icons/heart_full.svg'
+import BookmarkEmpty from '@/app/icons/bookmark_empty.svg'
+import BookmarkFull from '@/app/icons/bookmark_full.svg'
+import Comment from '@/app/icons/message.svg'
+import Share from '@/app/icons/share.svg'
+import Image from 'next/image';
 
-export default function Note({data} : any) {
+export default function Note({ data }: any) {
 
-    const { userID, title, category, message, image_name, location, mood } = data
+    const { username, icon, title, category, message, image, location, mood, feel, created_at } = data
 
-    // need to think about user image icon
+
+    const mood_tracker : any = {
+        angry: '😡',
+        nothing: '😶',
+        anxious: '😰',
+        confused: '🤨',
+        curious: '🤔',
+        demon: '😈',
+        disgusted: '🤢',
+        excited: '🤩',
+        exhausted: '😩',
+        happy: '😃',
+        heart_crack: '💔',
+        horrified: '😱',
+        illness: '🤒',
+        in_love: '🥰',
+        lonely: '😞',
+        money: '🤑',
+        poop: '💩',
+        sad: '😔',
+        scared: '😨',
+        shocked: '😲',
+        sleepy: '😴',
+        surprised: '😮'
+    };
+    
+
+    function getMood(val : any){
+        
+        return mood_tracker[val.mood] || ''
+    }
+    
 
     return (
         <div className="Note">
 
             <div className="note-header">
                 <div className="note-header-content">
-                    <img src=""></img>
+                    <Image src={icon} width={40} height={40} alt=''></Image>
+                    {/* <div className="temp_icon"></div> */}
 
-                    <div className="note-info">
-                        <span>Love</span>
-                        <span>453 days ago</span>
+                    <div className="note-title">
+                        <p className="note-title-value">{username}</p>
+                        <div className="note-info">
+                            <span className="note-info-datetime">{timeAgo(created_at)}</span>
+                            <span className="note-info-mood">&#x2022;{category}</span>
+                        </div>
                     </div>
                 </div>
 
-                <div className="note-title">
-                    <h5>My Husband does not care about me anymore</h5>
-                </div> 
-            </div>
+                {image && (
+                    <div className="note-image">
+                        <img className="note_image" src={image}></img>
+                    </div>
+                )}
 
-            <div className="note-image">
-                <img src=""></img>
+                <div className="note-title-area">
+                    <h5>{title}</h5>
+                </div>
             </div>
 
             <div className="note-message">
-                <p>I'm so frustrated with my partner right now! They never listen to me and they're always so selfish. I feel like I'm always the one making compromises and it's just not fair. I don't know how much more I can take.</p>
+                <p>{message}</p>
+            </div>
+
+            <div className='note-extra'>
+                <span>{feel}</span>
+                <span>{getMood({mood})}</span>
             </div>
 
             <div className="note-items">
                 <div>
                     <ul>
-                        <li></li>
-                        <li></li>
-                        <li></li>
+                        <li><Image src={HeartEmpty} alt=''></Image></li>
+                        <li><Image src={Comment} alt=''></Image></li>
+                        
                     </ul>
                 </div>
 
                 <div>
                     <ul>
-                        <li></li>
-                        <li></li>
+                        <li><Image src={BookmarkEmpty} alt=''></Image></li>
+                        <li><Image src={Share} alt=''></Image></li>
                     </ul>
                 </div>
             </div>
@@ -52,3 +101,34 @@ export default function Note({data} : any) {
     )
 
 }
+
+
+function timeAgo(createdTime: string) {
+    const createdDate: any = new Date(createdTime);
+    const currentDate: any = new Date();
+    const timeDiff: number = currentDate - createdDate;
+
+    const seconds = Math.floor(timeDiff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
+
+    if (seconds < 60) {
+        return "Just created";
+    } else if (minutes < 60) {
+        return `${minutes} mns ago`;
+    } else if (hours < 2) {
+        return "< 1 hr ago";
+    } else if (hours < 24) {
+        return `${hours} hrs ago`;
+    } else if (days < 2) {
+        return "Yesterday";
+    } else if (days < 7) {
+        return `${days} days ago`;
+    } else {
+        return `${weeks} weeks ago`;
+    }
+}
+
+

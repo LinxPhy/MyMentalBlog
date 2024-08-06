@@ -5,38 +5,44 @@ import axios from "axios";
 export const authOptions = {
   providers: [
     GoogleProvider({
-        clientId: process.env.GOOGLE_CLIENT_ID as string,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      })
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    })
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async jwt({ token, user, account, profile, isNewUser } : any) {
+    async signIn({ user }: any) {
+      try {
+        await axios.post(`${process.env.SERVER_URL}/storeUser`, {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          image: user.image
+        })
+        console.log("success")
+      } catch (err) {
+        console.log(err)
+      }
+
+
+      return true
+    },
+
+    async jwt({ token, user, account, profile, isNewUser }: any) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    async session({ session, token, user } : any) {
+    async session({ session, token, user }: any) {
       session.user.id = token.id;
-      
-      const data = {
-        id: session?.user.id,
-        name: session?.user.name,
-        email: session?.user.email,
-        image: session?.user.image,
-        expiration: session?.expires
-      }
-
-      storeData(data)
       return session;
-    }
+    },
+
+
   }
 }
 
-function storeData({data} : any){
-
-}
 
 // export default NextAuth(authOptions)
 
