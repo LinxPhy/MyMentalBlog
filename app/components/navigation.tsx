@@ -24,8 +24,8 @@ export default function Navigation() {
                     <nav>
                         <ul>
                             <li><Link href={'/'}>Home</Link></li>
-                            <li><Link href={'/create'}>Create</Link></li>
                             <li><Link href={'/bookmarks'}>Bookmarks</Link></li>
+                            <li><Link href={'/create'}>Create</Link></li>
                             <li><Link href={'/profile'}>Profile</Link></li>
                             <li><Link href={'/premium'}>Premium</Link></li>
                         </ul>

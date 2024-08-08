@@ -22,7 +22,7 @@ export default function Home() {
             <ul>
               <li className={`${selected === 'following' ? 'selected' : ''}`} onClick={() => setSelected('following')}><Link href={'#'}>Following</Link></li>
               <li className={`${selected === 'explore' ? 'selected' : ''}`} onClick={() => setSelected('explore')}><Link href={'#'}>Explore</Link></li>
-              <li className={`${selected === 'profile' ? 'selected' : ''}`} onClick={() => setSelected('profile')}><Link href={'#'}>Profile</Link></li>
+              {/* <li className={`${selected === 'profile' ? 'selected' : ''}`} onClick={() => setSelected('profile')}><Link href={'#'}>Profile</Link></li> */}
             </ul>
           </div>
         </section>

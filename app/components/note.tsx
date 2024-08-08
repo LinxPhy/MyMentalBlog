@@ -1,3 +1,4 @@
+'use client'
 
 import HeartEmpty from '@/app/icons/heart_empty.svg'
 import HeartFull from '@/app/icons/heart_full.svg'
@@ -7,41 +8,30 @@ import Comment from '@/app/icons/message.svg'
 import Share from '@/app/icons/share.svg'
 import Image from 'next/image';
 
+import Bookmark from './bookmark'
+
 export default function Note({ data }: any) {
 
-    const { username, icon, title, category, message, image, location, mood, feel, created_at } = data
-
-
-    const mood_tracker : any = {
-        angry: '😡',
-        nothing: '😶',
-        anxious: '😰',
-        confused: '🤨',
-        curious: '🤔',
-        demon: '😈',
-        disgusted: '🤢',
-        excited: '🤩',
-        exhausted: '😩',
-        happy: '😃',
-        heart_crack: '💔',
-        horrified: '😱',
-        illness: '🤒',
-        in_love: '🥰',
-        lonely: '😞',
-        money: '🤑',
-        poop: '💩',
-        sad: '😔',
-        scared: '😨',
-        shocked: '😲',
-        sleepy: '😴',
-        surprised: '😮'
-    };
+    const { postID, slug, username, icon, title, category, message, image, location, mood, feel, created_at, is_bookmarked } = data
+    
     
 
     function getMood(val : any){
         
         return mood_tracker[val.mood] || ''
     }
+
+    function copyToClipboard({postID, slug} : any){
+
+        const baseUrl = window.location.origin;
+        const url = baseUrl + '/' + 'post' + '/' + postID + '/' + slug
+
+        navigator.clipboard.writeText(url).then(() => {
+        }).catch(err => {
+            console.log("Error copying", err)
+        })
+    }
+
     
 
     return (
@@ -50,8 +40,6 @@ export default function Note({ data }: any) {
             <div className="note-header">
                 <div className="note-header-content">
                     <Image src={icon} width={40} height={40} alt=''></Image>
-                    {/* <div className="temp_icon"></div> */}
-
                     <div className="note-title">
                         <p className="note-title-value">{username}</p>
                         <div className="note-info">
@@ -92,8 +80,8 @@ export default function Note({ data }: any) {
 
                 <div>
                     <ul>
-                        <li><Image src={BookmarkEmpty} alt=''></Image></li>
-                        <li><Image src={Share} alt=''></Image></li>
+                        <Bookmark data={{postID, is_bookmarked}} />
+                        <li onClick={() => copyToClipboard({postID, slug})}><Image src={Share} alt=''></Image></li>
                     </ul>
                 </div>
             </div>
@@ -131,4 +119,27 @@ function timeAgo(createdTime: string) {
     }
 }
 
-
+const mood_tracker : any = {
+    angry: '😡',
+    nothing: '😶',
+    anxious: '😰',
+    confused: '🤨',
+    curious: '🤔',
+    demon: '😈',
+    disgusted: '🤢',
+    excited: '🤩',
+    exhausted: '😩',
+    happy: '😃',
+    heart_crack: '💔',
+    horrified: '😱',
+    illness: '🤒',
+    in_love: '🥰',
+    lonely: '😞',
+    money: '🤑',
+    poop: '💩',
+    sad: '😔',
+    scared: '😨',
+    shocked: '😲',
+    sleepy: '😴',
+    surprised: '😮'
+};

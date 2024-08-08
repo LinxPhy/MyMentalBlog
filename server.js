@@ -35,13 +35,24 @@ app.post('/getposts', (req, res) => {
 
     try {
         let query = `
-        SELECT 
+        SELECT distinct
             u.username, u.email, u.image as icon, 
             p.postID, p.title, p.slug,
             p.category, p.image, p.message,
             p.location, p.mood, p.incognito,
-            p.feel, p.created_at
-        FROM users u JOIN posts p ON u.userID = p.userID;`
+            p.feel, p.created_at, 
+            CASE
+                when exists(
+                    select 1
+                    from bookmarks b
+                    where b.postID = p.postID AND b.userID = p.userID
+                ) then 1
+                else 0
+            end as is_bookmarked
+        FROM users u 
+        join posts p ON u.userID = p.userID
+        left join bookmarks b on u.userID = p.userID
+        ORDER BY created_at DESC; `
         connection.query(query, (err, result) => {
             if (err) throw err
             res.send(result)
@@ -54,6 +65,70 @@ app.post('/getposts', (req, res) => {
 
 })
 
+app.post('/createbookmark', async(req, res) => {
+
+    try{
+        const {postID, userID} = req.body
+        let query = `INSERT INTO bookmarks VALUES (?, ?)`
+        let data = [userID, postID]
+
+        await new Promise((resolve, reject) => {
+            connection.query(query, data, (err, result) => {
+                if (err) return reject(err)
+                resolve(result)
+            })
+        })
+        
+        res.sendStatus(201)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+})
+
+app.post('/removebookmark', async(req, res) => {
+
+    try{
+        const {postID, userID} = req.body
+        let query = `DELETE FROM bookmarks WHERE postID = (?) AND userID = (?)`
+        let data = [postID, userID]
+
+        await new Promise((resolve, reject) => {
+            connection.query(query, data, (err, result) => {
+                if (err) return reject(err)
+                resolve(result)
+            })
+        })
+        
+        res.sendStatus(200)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+
+})
+
+app.post('/getbookmarks', async(req, res) => {
+
+    try{
+        const {postID, userID} = req.body
+        let query = `SELECT * FROM bookmarks WHERE postID = (?) AND userID = (?)`
+        let data = [postID, userID]
+
+        await new Promise((resolve, reject) => {
+            connection.query(query, data, (err, result) => {
+                if (err) return reject(err)
+                resolve(result)
+            })
+        })
+        
+        res.sendStatus(200)
+    } catch (e) {
+        console.log(e)
+        res.sendStatus(500)
+    }
+
+})
 
 
 
