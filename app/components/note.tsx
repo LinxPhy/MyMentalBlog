@@ -14,8 +14,6 @@ export default function Note({ data }: any) {
 
     const { postID, slug, username, icon, title, category, message, image, location, mood, feel, created_at, is_bookmarked } = data
     
-    
-
     function getMood(val : any){
         
         return mood_tracker[val.mood] || ''

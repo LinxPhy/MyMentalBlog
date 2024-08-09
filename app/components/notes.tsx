@@ -16,8 +16,6 @@ export default function Notes({ data }: any) {
 
         let url_ext = ''
 
-        console.log(selection)
-
         if (selection == 'explore') {
             url_ext = '/getposts'
 

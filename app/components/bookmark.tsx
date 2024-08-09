@@ -26,25 +26,19 @@ export default function Bookmark({data} : any){
 
         const callAPI = async() => {
 
-            console.log(postID, userID)
-
             if (bookmark == true){
                 await axios.post(`${process.env.SERVER_URL}/removebookmark`, {
                     postID: postID,
                     userID: userID
-                }).then(res => {
-                    console.log(res)
                 }).catch(err => {
-                    console.log(err)
+                    console.log("Error removing Bookmark")
                 })
             } else {
                 await axios.post(`${process.env.SERVER_URL}/createbookmark`, {
                     postID: postID,
                     userID: userID
-                }).then(res => {
-                    console.log(res)
                 }).catch(err => {
-                    console.log(err)
+                    console.log("Error Adding Bookmark")
                 })
             }
             

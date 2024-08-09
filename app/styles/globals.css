@@ -80,3 +80,12 @@ ul {
     font-style: normal;
 }
 
+.bookmark-container .search-area{
+    display: flex;
+    justify-content: center;
+}
+
+.bookmarks .Note{
+    margin: 0 auto 10px auto;
+    width: 500px;
+}
